@@ -7,6 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { authUserDto } from './dto/auth-user.dto';
 import { createUserDto } from './dto/create-user.dto';
 import { updateUserDto } from './dto/update-user.dto';
 import { User } from './schema/user.schema';
@@ -42,5 +43,10 @@ export class UserController {
     @Body() UpdateUserDto: updateUserDto,
   ): Promise<User> {
     return this.userService.update(id, UpdateUserDto);
+  }
+
+  @Post('/login')
+  authUser(@Body() AuthUserDto: authUserDto) {
+    return this.userService.authUser(AuthUserDto);
   }
 }
