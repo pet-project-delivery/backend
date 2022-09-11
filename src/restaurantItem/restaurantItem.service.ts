@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
+import { FileService, FileType } from 'src/file/file.service';
 import { Restaurant } from 'src/restaurant/schemas/restaurant.schema';
 import { CreateRestaurantItemDto } from './dto/create-restaurantItem.dto';
 import { Category } from './schemas/category.schema';
@@ -15,15 +16,20 @@ export class RestaurantItemService {
     private restaurantModel: Model<Restaurant>,
     @InjectModel(Category.name)
     private categoryModel: Model<Category>,
+    private fileService: FileService,
   ) {}
 
-  async create(dto: CreateRestaurantItemDto): Promise<RestaurantItem> {
-    const restaurantItem = await this.restaurantItemModel.create(dto);
+  async create(dto: CreateRestaurantItemDto, image): Promise<RestaurantItem> {
+    const imageUrl = this.fileService.createFile(FileType.ITEMS, image);
+    const restaurantItem = await this.restaurantItemModel.create({
+      ...dto,
+      imageUrl,
+    });
     const restaurant = await this.restaurantModel.findById(dto.restaurant);
     const isCategoryExist = await this.categoryModel.find({
       name: restaurantItem.category,
     });
-    console.log(isCategoryExist);
+
     if (isCategoryExist.length) {
       restaurant.items.push(restaurantItem);
       await restaurant.save();

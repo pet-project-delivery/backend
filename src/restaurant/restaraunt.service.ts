@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
+import { FileService, FileType } from 'src/file/file.service';
 import { CreateRestaurantDto } from './dto/create-restaurant.dto';
 import { UpdateRestaurantDto } from './dto/update-restaurant.dto';
 import { Restaurant, RestaurantDocument } from './schemas/restaurant.schema';
@@ -10,10 +11,18 @@ export class RestaurantService {
   constructor(
     @InjectModel(Restaurant.name)
     private restaurantModel: Model<RestaurantDocument>,
+    private fileService: FileService,
   ) {}
 
-  async create(createRestaurantDto: CreateRestaurantDto): Promise<Restaurant> {
-    const restaurant = await this.restaurantModel.create(createRestaurantDto);
+  async create(
+    createRestaurantDto: CreateRestaurantDto,
+    image,
+  ): Promise<Restaurant> {
+    const imageUrl = this.fileService.createFile(FileType.RESTAURANTS, image);
+    const restaurant = await this.restaurantModel.create({
+      ...createRestaurantDto,
+      imageUrl,
+    });
     return restaurant;
   }
 

@@ -15,6 +15,9 @@ export class Restaurant {
   @Prop()
   imageUrl: string;
 
+  @Prop()
+  type: 'shop' | 'restaurant';
+
   @Prop({ default: '0 мин.' })
   timeRange: string;
 

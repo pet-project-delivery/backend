@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseInterceptors,
+  UploadedFiles,
+} from '@nestjs/common';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ObjectId } from 'mongoose';
 import { CreateRestaurantItemDto } from './dto/create-restaurantItem.dto';
 import { RestaurantItemService } from './restaurantItem.service';
@@ -8,8 +18,10 @@ export class RestaurantItemController {
   constructor(private restaurantItemService: RestaurantItemService) {}
 
   @Post()
-  create(@Body() dto: CreateRestaurantItemDto) {
-    return this.restaurantItemService.create(dto);
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'image', maxCount: 1 }]))
+  create(@UploadedFiles() files, @Body() dto: CreateRestaurantItemDto) {
+    const { image } = files;
+    return this.restaurantItemService.create(dto, image[0]);
   }
 
   @Get()
