@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { FileService } from 'src/file/file.service';
 import {
   Restaurant,
   RestaurantSchema,
@@ -24,6 +25,6 @@ import {
     ]),
   ],
   controllers: [RestaurantItemController],
-  providers: [RestaurantItemService],
+  providers: [RestaurantItemService, FileService],
 })
 export class RestaurantItemModule {}
