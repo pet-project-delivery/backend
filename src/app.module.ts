@@ -7,9 +7,11 @@ import { RestaurantModule } from './restaurant/restaraunt.module';
 import { RestaurantItemModule } from './restaurantItem/restaurantItem.module';
 import { ReviewModule } from './review/review.module';
 import { UserModule } from './user/user.module';
+import { PromoModule } from './promo/promo.module';
 
 @Module({
   imports: [
+    PromoModule,
     UserModule,
     RestaurantModule,
     ReviewModule,
