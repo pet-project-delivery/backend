@@ -6,6 +6,7 @@ import * as path from 'path';
 export enum FileType {
   SHOPS = 'shop',
   RESTAURANTS = 'restaurant',
+  PROMOS = 'promo',
   ITEMS = 'item',
 }
 
