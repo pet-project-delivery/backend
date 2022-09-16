@@ -14,7 +14,10 @@ export class Promo {
   @Prop()
   name: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant' })
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant' }],
+    default: [],
+  })
   restaurants: Restaurant[];
 }
 
