@@ -27,7 +27,10 @@ export class UserService {
   }
 
   async update(id: string, updateDto: updateUserDto): Promise<User> {
-    return this.userModel.findByIdAndUpdate(id, updateDto);
+    const updateUser = await (
+      await this.userModel.findByIdAndUpdate(id, updateDto)
+    ).populate('likedRestaurants');
+    return updateUser;
   }
 
   async authUser(AuthUserDto: authUserDto): Promise<User | null> {

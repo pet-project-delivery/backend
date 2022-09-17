@@ -13,7 +13,7 @@ import { updateUserDto } from './dto/update-user.dto';
 import { User } from './schema/user.schema';
 import { UserService } from './user.service';
 
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
