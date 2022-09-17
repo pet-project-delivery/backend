@@ -30,12 +30,17 @@ export class RestaurantService {
     const restaurants = await this.restaurantModel
       .find()
       .populate('items')
-      .populate('categories');
+      .populate('categories')
+      .populate('reviews');
     return restaurants;
   }
 
   async getOne(id: ObjectId): Promise<Restaurant> {
-    const restaurant = await this.restaurantModel.findById(id);
+    const restaurant = await this.restaurantModel
+      .findById(id)
+      .populate('items')
+      .populate('categories')
+      .populate('reviews');
     return restaurant;
   }
 
